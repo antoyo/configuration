@@ -39,4 +39,7 @@ bind-key t down
 bind-key s up
 
 # Settings.
-browser "firefox %u &"
+auto-reload yes
+browser "dwb %u > /dev/null 2>&1 &"
+max-items 100
+reload-threads 10
