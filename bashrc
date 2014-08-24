@@ -16,7 +16,9 @@ alias mkdir='mkdir -p'
 alias mv='mv -i'
 alias ob="ocamlbuild -use-ocamlfind"
 alias rm='rm -i'
+alias trc='transmission-remote-cli'
 
 # Environment variables.
+export BROWSER="dwb"
 export EDITOR='vim'
 export GCC_COLORS=auto

@@ -30,7 +30,8 @@ floating_modifier $mod
 bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
-bindsym $mod+Shift+k kill
+bindsym $mod+Shift+b kill
+bindsym $mod+Shift+k exec xdotool getwindowfocus windowkill
 
 # start dmenu (a program launcher)
 bindsym $mod+i exec --no-startup-id dmenu_run
@@ -64,16 +65,16 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+c split h
+#bindsym $mod+c split h
 
 # split in vertical orientation
-bindsym $mod+period split v
+#bindsym $mod+period split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+e fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+u layout stacking
+#bindsym $mod+u layout stacking
 bindsym $mod+eacute layout tabbed
 bindsym $mod+p layout toggle split
 
@@ -118,7 +119,7 @@ bindsym $mod+Shift+x reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+o restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+p exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+p exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -168,9 +169,9 @@ mode "$mode_system" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+Pause mode "$mode_system"
+bindsym Control+$mod+q mode "$mode_system"
 
-bindsym $mod+l exec lock
+bindsym Control+$mod+l exec lock
 
 # Tabbed softwares.
 for_window [class="URxvt"] focus child, layout tabbed, focus
