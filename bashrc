@@ -13,10 +13,12 @@ alias ls='ls --color=auto'
 alias lst="ls -ltur"
 alias mcabber="mcabber -f <(cat ~/.mcabber/mcabberrc; printf 'set password = '; pass chat)"
 alias mkdir='mkdir -p'
+alias mount='sudo mount -o uid=1000'
 alias mv='mv -i'
 alias ob="ocamlbuild -use-ocamlfind"
+alias omake="omake -w"
 alias rm='rm -i'
-alias trc='transmission-remote-cli'
+alias trc='transmission-daemon && transmission-remote-cli'
 
 # Environment variables.
 export BROWSER="dwb"
