@@ -27,6 +27,8 @@ bind attach r view-attach
 bind attach k save-entry
 bind index,pager,attach , reply
 
+macro pager \cb <pipe-entry>'urlscan'<enter> 'Follow links with urlscan'
+
 source ~/.mutt/gpg.rc
 source ~/.mutt/theme
 

@@ -8,6 +8,7 @@ set icon
 set hidden
 set number
 set scrolloff=3
+set shellcmdflag=-ic
 set shortmess+=I
 set showcmd
 set title
@@ -49,10 +50,12 @@ iabbrev #d #define
 iabbrev #i #include
 
 " Shorcuts.
+map <F1> <nop>
+imap <F1> <nop>
 map <F2> :shell<Enter>
 map <F4> :CMake<Enter>
 map <F5> :make<Enter>
-map <F6> :!%<Enter>
+map <F6> :!omake clean \| cat<Enter>
 map <C-K> :nohlsearch<Enter>
 map ga <C-^>
 map gt <C-]>
@@ -62,20 +65,14 @@ command! W write
 
 " Plugin configuration.
 " HeaderGuard
-function! g:HeaderguardName()
-    return "DEF_" . toupper(substitute(expand('%:t'), '.hpp', '', ''))
-endfunction
-
 function! g:HeaderguardLine3()
     return "#endif"
 endfunction
 
-" Kwbd
-nmap <C-W> <Plug>Kwbd
-
 " Session.
-let g:session_persist_globals = ['&makeprg', 'g:cmake_build_type', 'g:syntastic_tex_checkers']
+let g:session_persist_globals = ['&makeprg', 'g:cmake_build_type']
 autocmd VimEnter * delcommand OpenTabSession
+let g:session_autosave = 'yes'
 
 " NeoComplCache
 let g:neocomplcache_enable_at_startup = 1
@@ -86,9 +83,6 @@ let g:cmake_build_type = 'DEBUG'
 
 " Licenses
 let g:licenses_authors_name = 'Boucher, Antoni <bouanto@gmail.com>'
-
-" LaTeX Suite
-let g:tex_flavor = "latex"
 
 " Syntastic.
 let g:syntastic_check_on_open = 1

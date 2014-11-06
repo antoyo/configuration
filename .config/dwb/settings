@@ -161,3 +161,4 @@ enable-offline-web-application-cache=true
 tabbar-height=0
 statusbar-height=0
 favicon-size=0
+adblocker-filterlist=~/.config/dwb/adblock_lists
