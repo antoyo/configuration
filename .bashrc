@@ -9,7 +9,6 @@ alias addon-sdk="cd /opt/addon-sdk && source bin/activate; cd -"
 alias cdc='cd `xclip -o`'
 alias cp='cp -i'
 alias df='df -h'
-alias lo="ledit ocaml"
 alias ls='ls --color=auto'
 alias lst="ls -ltur"
 alias mcabber="mcabber -f <(cat ~/.mcabber/mcabberrc; printf 'set password = '; pass chat)"
@@ -19,6 +18,7 @@ alias mv='mv -i'
 alias ob="ocamlbuild -use-ocamlfind"
 alias omake="omake -w"
 alias rm='rm -i'
+alias ro="rlwrap ocaml"
 alias trc='transmission-daemon && transmission-remote-cli'
 
 # Environment variables.
