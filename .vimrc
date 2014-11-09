@@ -8,10 +8,13 @@ set icon
 set hidden
 set number
 set scrolloff=3
-set shellcmdflag=-ic
 set shortmess+=I
 set showcmd
 set title
+
+" Completion configuration.
+set suffixes+=,,
+set wildignore+=*.cmi,*.cmx,*.o,*.omc,*.opt
 set wildmenu
 set wildmode=longest,list,full
 

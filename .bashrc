@@ -6,6 +6,7 @@ PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1
 
 # Alias
 alias addon-sdk="cd /opt/addon-sdk && source bin/activate; cd -"
+alias cdc='cd `xclip -o`'
 alias cp='cp -i'
 alias df='df -h'
 alias lo="ledit ocaml"
