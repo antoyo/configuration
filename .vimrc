@@ -14,7 +14,7 @@ set title
 
 " Completion configuration.
 set suffixes+=,,
-set wildignore+=*.cmi,*.cmx,*.o,*.omc,*.opt
+set wildignore+=*.hi,*.o,*.omc
 set wildmenu
 set wildmode=longest,list,full
 
@@ -62,6 +62,8 @@ map <F6> :!omake clean \| cat<Enter>
 map <C-K> :nohlsearch<Enter>
 map ga <C-^>
 map gt <C-]>
+vmap <C-Y> :!xclip -f -sel clip<Enter>
+map <C-P> :-1r !xclip -o -sel clip<Enter>
 
 " Commands.
 command! W write
@@ -86,10 +88,6 @@ let g:cmake_build_type = 'DEBUG'
 
 " Licenses
 let g:licenses_authors_name = 'Boucher, Antoni <bouanto@gmail.com>'
-
-" Syntastic.
-let g:syntastic_check_on_open = 1
-let g:syntastic_auto_loc_list = 1
 
 " Bug fix.
 autocmd VimEnter * redraw!

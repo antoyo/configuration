@@ -188,3 +188,8 @@ workspace_auto_back_and_forth yes
 bindsym $mod+m exec palemoon
 bindsym $mod+w exec dwb
 bindsym $mod+z exec zathura
+
+# Volume management.
+bindsym $mod+Prior exec amixer -q set Master 5+
+bindsym $mod+Next exec amixer -q set Master 5-
+bindsym $mod+End exec $(amixer get Master | grep off > /dev/null && amixer -q set Master unmute) || amixer -q set Master mute
