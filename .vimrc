@@ -80,8 +80,8 @@ autocmd VimEnter * delcommand OpenTabSession
 let g:session_autosave = 'yes'
 
 " NeoComplCache
-let g:neocomplcache_enable_at_startup = 1
-inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>" 
+let g:neocomplete#enable_at_startup = 1
+inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>" 
 
 " CMake
 let g:cmake_build_type = 'DEBUG'
