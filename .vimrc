@@ -1,3 +1,25 @@
+" Vundle configuration.
+filetype off
+
+set rtp +=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'h1mesuke/vim-unittest'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'travitch/hasksyn'
+Plugin 'vhdirk/vim-cmake'
+
+Plugin 'a.vim'
+Plugin 'comments.vim'
+Plugin 'headerguard.vim'
+Plugin 'Licenses'
+Plugin 'session.vim--Odding'
+Plugin 'Syntastic'
+
+call vundle#end()
+
 " Bépo vim shorcuts.
 source ~/.vimrc.bepo
 
@@ -76,10 +98,9 @@ endfunction
 
 " Session.
 let g:session_persist_globals = ['&makeprg', 'g:cmake_build_type']
-autocmd VimEnter * delcommand OpenTabSession
 let g:session_autosave = 'yes'
 
-" NeoComplCache
+" Neocomplete
 let g:neocomplete#enable_at_startup = 1
 inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>" 
 
