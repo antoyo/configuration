@@ -18,17 +18,8 @@ alias omake="omake -w"
 alias rm="rm -i"
 alias trc="transmission-daemon && transmission-remote-cli"
 
-# Nix Aliases.
-alias install="sudo nix-env -iA"
-alias search="sudo nix-env -qaP | grep"
-alias upgrade="sudo nix-env --upgrade"
-alias update="sudo nix-channel --update"
-alias uu="update && upgrade"
-
 # Environment variables.
 export BROWSER="dwb"
 export EDITOR="vim"
 export GCC_COLORS=auto
-
-# Nix.
-source /etc/profile.d/nix.sh
+export PATH="~/.cabal/bin:~/Ordinateur/Programmation/Haskell/CabalSandboxes/Yesod/bin:~/Ordinateur/Programmation/Haskell/CabalSandboxes/Snap/bin:$PATH"

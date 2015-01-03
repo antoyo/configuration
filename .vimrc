@@ -28,6 +28,7 @@ set background=dark
 set confirm
 set icon
 set hidden
+set nofoldenable
 set number
 set scrolloff=3
 set shortmess+=I
@@ -36,7 +37,7 @@ set title
 
 " Completion configuration.
 set suffixes+=,,
-set wildignore+=*.hi,*.o,*.omc
+set wildignore+=*.dyn_hi,*.dyn_o,*.hi,*.o,*.omc,*.toc,*.pdf,*.aux,*.log,*.toc
 set wildmenu
 set wildmode=longest,list,full
 
@@ -63,6 +64,7 @@ match NbSp /\%xa0/
 filetype plugin indent on
 autocmd FileType c,cpp setlocal cindent
 autocmd FileType python setlocal autoindent
+autocmd FileType haskell set makeprg=cabal\ build
 autocmd BufRead,BufNewFile *.cls set filetype=tex
 
 " Automatically apply changes from configuration file.
@@ -102,13 +104,21 @@ let g:session_autosave = 'yes'
 
 " Neocomplete
 let g:neocomplete#enable_at_startup = 1
-inoremap <expr><CR> neocomplete#smart_close_popup() . "\<CR>" 
+let g:neocomplete#enable_smart_case = 1
+inoremap <expr><C-g> neocomplete#undo_completion()
+inoremap <expr><CR> neocomplete#close_popup() . "\<CR>"
 
 " CMake
 let g:cmake_build_type = 'DEBUG'
 
 " Licenses
 let g:licenses_authors_name = 'Boucher, Antoni <bouanto@gmail.com>'
+
+" Syntastic
+let g:syntastic_check_on_open = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_haskell_checkers = ["hlint"]
+let g:syntastic_scala_checkers = []
 
 " Bug fix.
 autocmd VimEnter * redraw!
