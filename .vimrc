@@ -7,12 +7,14 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'h1mesuke/vim-unittest'
+Plugin 'pbrisbin/vim-syntax-shakespeare'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'travitch/hasksyn'
 Plugin 'vhdirk/vim-cmake'
 
 Plugin 'a.vim'
 Plugin 'comments.vim'
+Plugin 'gnupg.vim'
 Plugin 'headerguard.vim'
 Plugin 'Licenses'
 Plugin 'session.vim--Odding'
@@ -33,6 +35,7 @@ set number
 set scrolloff=3
 set shortmess+=I
 set showcmd
+set spelllang=fr
 set title
 
 " Completion configuration.
@@ -81,8 +84,8 @@ map <F1> <nop>
 imap <F1> <nop>
 map <F2> :shell<Enter>
 map <F4> :CMake<Enter>
-map <F5> :make<Enter>
-map <F6> :!omake clean \| cat<Enter>
+map <F5> :up<Enter>:make<Enter>
+map <F6> :up<Enter>:!cabal test<Enter>
 map <C-K> :nohlsearch<Enter>
 map ga <C-^>
 map gt <C-]>

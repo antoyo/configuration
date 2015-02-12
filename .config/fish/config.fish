@@ -34,9 +34,14 @@ alias df "df -h"
 alias ls "ls --color=auto"
 alias lst "ls -ltur"
 alias mcabber "mcabber -f (mcabber_config_file|psub)"
+alias mediacenter "sudo mount -t nfs hp-g62-laptop.local:/Downloads /mnt/mediacenter/"
 alias mkdir "mkdir -p"
 alias mount "sudo mount -o uid=1000"
 alias mv "mv -i"
 alias omake "omake -w"
 alias rm "rm -i"
+alias tarin "ssh boua1737@tarin.dinf.usherbrooke.ca"
 alias trc "transmission-daemon; transmission-remote-cli"
+
+# OPAM configuration
+. /home/bouanto/.opam/opam-init/init.fish > /dev/null 2> /dev/null or true
