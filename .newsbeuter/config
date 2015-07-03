@@ -40,6 +40,6 @@ bind-key s up
 
 # Settings.
 auto-reload yes
-browser "dwb %u > /dev/null 2>&1 &"
+browser "qutebrowser.py %u > /dev/null 2>&1 &"
 max-items 100
 reload-threads 10

@@ -58,5 +58,9 @@ macro index,pager a "<pipe-message>abook --add-email-quiet<return>" "Add this se
 bind editor <Tab> complete-query
 
 # GnuPG
-set crypt_autosign = yes
+set crypt_autosign = no
+set crypt_replysign = yes
 set crypt_replyencrypt = yes
+set crypt_replysignencrypted = yes
+set crypt_verify_sig = yes
+set pgp_use_gpg_agent = yes
