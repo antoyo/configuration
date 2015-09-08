@@ -16,18 +16,20 @@ function mcp
     scp $argv[1] mediac@ghislain-desktop.local:~/Vidéos
 end
 
+function mc
+    mkdir $argv[1]; cd $argv[1]
+end
+
 # Aliases.
 alias cdc "cd `xclip -o`"
 alias cp "cp -i"
 alias df "df -h"
 alias ls "ls --color=auto"
-alias lst "ls -ltur"
 alias mcabber "mcabber -f (mcabber_config_file|psub)"
 alias mkdir "mkdir -p"
 alias mount "sudo mount -o uid=1000"
 alias mount_cd "sudo mount -t iso9660 -o ro /dev/cdrom /mnt/cdrom"
 alias mv "mv -i"
 alias rm "rm -i"
-alias ro "rlwrap ocaml"
 alias tarin "ssh boua1737@tarin.dinf.usherbrooke.ca"
 alias trc "transmission-daemon; transmission-remote-cli"

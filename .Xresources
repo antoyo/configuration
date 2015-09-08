@@ -66,7 +66,7 @@ URxvt*foreground:                       White
 ! URxvt*pointerColor2:                  color
 ! URxvt*borderColor:                    color
 ! URxvt*iconFile:                       file
-URxvt*font:                             xft:DejaVu Sans Mono:size=12
+URxvt*font:                             xft:DejaVu Sans Mono for Powerline:size=12
 ! URxvt*boldFont:                       fontname
 ! URxvt*italicFont:                     fontname
 ! URxvt*boldItalicFont:                 fontname
@@ -131,7 +131,7 @@ URxvt*iso14755:                         False
 URxvt.url-select.launcher:              qutebrowser.py
 URxvt.url-select.underline:             true
 URxvt.keysym.C-M-w:                     perl:url-select:select_next
-URxvt.keysym.C-M-b:                     perl:keyboard-select:activate
+URxvt.keysym.C-M-s:                     perl:keyboard-select:activate
 URxvt.keysym.C-M-f:                     perl:keyboard-select:search
 URxvt.keysym.Shift-Control-C:           perl:clipboard:copy
 URxvt.keysym.Shift-Control-V:           perl:clipboard:paste
