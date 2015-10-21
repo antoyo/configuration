@@ -16,7 +16,7 @@ function mcp
     scp $argv[1] mediac@ghislain-desktop.local:~/Vidéos
 end
 
-function mc
+function mkc
     mkdir $argv[1]; cd $argv[1]
 end
 

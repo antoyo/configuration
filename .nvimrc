@@ -7,19 +7,18 @@ Plug 'cespare/vim-toml'
 Plug 'h1mesuke/vim-unittest'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'mhinz/vim-grepper'
+Plug 'phildawes/racer'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim'
-Plug 'vhdirk/vim-cmake'
 
 Plug 'ctrlp.vim'
 Plug 'vim-misc'
 Plug 'easytags.vim'
 Plug 'fugitive.vim'
 Plug 'gitignore'
+"Plug 'indentLine.vim' " TODO: to remove.
 Plug 'The-NERD-Commenter'
-Plug 'The-NERD-tree'
 Plug 'gnupg.vim'
-Plug 'headerguard'
 Plug 'Licenses'
 Plug 'session.vim--Odding'
 
@@ -45,7 +44,6 @@ set tags=./.tags
 set timeoutlen=250
 set title
 
-let $PATH = "/usr/bin:" . $PATH
 let mapleader = "\<Space>"
 
 " Completion configuration.
@@ -53,7 +51,7 @@ set completeopt -=preview
 set suffixes +=,,
 set wildmenu
 set wildmode =longest,list,full
-set wildignore+=Cargo.lock
+set wildignore+=Cargo.lock,*.class " TODO: remove *.class.
 
 " Search configuration.
 set gdefault
@@ -79,66 +77,57 @@ filetype plugin indent on
 autocmd FileType c,cpp setlocal cindent
 autocmd FileType python setlocal autoindent
 autocmd BufRead,BufNewFile *.cls set filetype=tex
+" TODO: to remove
+autocmd FileType scheme imap \ λ
 
 " Automatically apply changes from configuration file.
 autocmd! bufwritepost .nvimrc source ~/.nvimrc
 
-" Abbreviation.
+" Abbreviation. TODO: to remove.
 iabbrev #d #define
 iabbrev #i #include
 
 " Shorcuts.
 map <F1> <nop>
 imap <F1> <nop>
-map <F4> :CMake<Enter>
 map ga <C-^>
 map gt <C-]>
-vmap <C-Y> :!xclip -f -sel clip<Enter>u
-map <C-P> :-1r !xclip -o -sel clip<Enter>
-map <C-S> maggVG:!xclip -f -sel clip<Enter>u'a
+map <C-S> magg"+yG'azz
 
 " vim-grepper shortcuts.
 nmap <Leader>g <plug>(Grepper)
 xmap <Leader>g <plug>(Grepper)
-cmap <Leader>g <plug>(GrepperNext)
 nmap gs <plug>(GrepperMotion)
 xmap gs <plug>(GrepperMotion)
 
-nnoremap <Leader>q :wq<CR>
+nnoremap <Leader>q :update<CR>:q<CR>
 nnoremap <Leader>m :up<Enter>:make<CR>
 nnoremap <Leader>r :nohlsearch<CR>
 nnoremap <Leader>s :terminal<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>n :only<CR>
+nnoremap <Leader>h :hide<CR>
 
 command! GpushNew :Gpush origin -u HEAD
 
 " Plugin configuration.
-" HeaderGuard
-function! g:HeaderguardLine3()
-    return "#endif"
-endfunction
-
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
-
-" CMake
-let g:cmake_build_type = 'DEBUG'
 
 " Licenses
 let g:licenses_authors_name = 'Boucher, Antoni <bouanto@zoho.com>'
 
 " Session
 let g:session_autosave = 'yes'
-let g:session_persist_globals = ['&makeprg', 'g:cmake_build_type', '$PATH']
+let g:session_persist_globals = ['&makeprg']
 
 " Neomake
 autocmd! BufWritePost * if &ft != 'rust' | Neomake | endif
 autocmd! BufWritePost *.rs Neomake! cargo
 let g:neomake_open_list = 2
-let g:neomake_javascript_enabled_makers = ['jshint']
 
 " Airline
 set laststatus=2
@@ -148,11 +137,12 @@ let g:airline#extensions#tabline#enabled = 1
 
 " CtrlP
 let g:ctrlp_prompt_mappings = {
-      \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
-      \ 'PrtSelectMove("k")':   ['<c-s>', '<up>'],
-      \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>'],
-      \ 'AcceptSelection("t")': [],
-      \ }
+    \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
+    \ 'PrtSelectMove("k")':   ['<c-s>', '<up>'],
+    \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>'],
+    \ 'AcceptSelection("t")': [],
+    \ }
+let g:ctrlp_working_path_mode = 0
 
 " Easytags
 let g:easytags_dynamic_files = 2
@@ -160,3 +150,7 @@ let g:easytags_dynamic_files = 2
 " Grepper
 let g:grepper = {}
 let g:grepper.programs = ['ag']
+
+" Racer
+let g:racer_cmd = "/usr/bin/racer"
+let $RUST_SRC_PATH = "/usr/src/rust/src/"
