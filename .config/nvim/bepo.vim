@@ -12,7 +12,7 @@ onoremap iÉ iW
 " Pour faciliter les manipulations de fenêtres, on utilise {W} comme un Ctrl+W :
 noremap w <C-w>
 noremap W <C-w><C-w>
- 
+
 " [HJKL] -> {CTSR}
 " ————————————————
 " {cr} = « gauche / droite »
@@ -30,7 +30,7 @@ noremap S K
 " Corollaire : repli suivant / précédent
 noremap zs zj
 noremap zt zk
- 
+
 " {HJKL} <- [CTSR]
 " ————————————————
 " {J} = « Jusqu'à »            (j = suivant, J = précédant)
@@ -48,7 +48,7 @@ noremap K S
 " Corollaire : correction orthographique
 noremap ]k ]s
 noremap [k [s
- 
+
 " Désambiguation de {g}
 " —————————————————————
 " ligne écran précédente / suivante (à l'intérieur d'une phrase)
@@ -62,12 +62,12 @@ noremap gB :exe "silent! tabfirst"<CR>
 noremap gÉ :exe "silent! tablast"<CR>
 " optionnel : {g"} pour aller au début de la ligne écran
 noremap g" g0
- 
+
 " <> en direct
 " ————————————
 noremap « <
 noremap » >
- 
+
 " Remaper la gestion des fenêtres
 " ———————————————————————————————
 noremap wt <C-w>j
