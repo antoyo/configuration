@@ -47,7 +47,6 @@ set sort=threads
 # Sidebar settings.
 set sidebar_width = 25
 set sidebar_visible = yes
-set sidebar_shortpath = yes
 bind index,pager \CP sidebar-prev
 bind index,pager \CN sidebar-next
 bind index,pager \CO sidebar-open

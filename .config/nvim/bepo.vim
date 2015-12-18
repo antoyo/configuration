@@ -67,6 +67,10 @@ noremap g" g0
 " ————————————
 noremap « <
 noremap » >
+inoremap « <
+inoremap < «
+inoremap » >
+inoremap > »
 
 " Remaper la gestion des fenêtres
 " ———————————————————————————————

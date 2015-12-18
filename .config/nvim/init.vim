@@ -1,11 +1,14 @@
-let s:nvim_path = split(&runtimepath, ",")[0]
+let g:nvim_path = split(&runtimepath, ",")[0]
 
 " vim-plug coniguration.
-call plug#begin(s:nvim_path . "/plugged")
+call plug#begin(g:nvim_path . "/plugged")
 
 Plug 'benekastah/neomake'
 Plug 'bling/vim-airline'
 Plug 'cespare/vim-toml'
+Plug 'dahu/vimple'
+Plug 'dahu/Asif'
+Plug 'dahu/vim-asciidoc'
 Plug 'h1mesuke/vim-unittest'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'mhinz/vim-grepper'
@@ -14,20 +17,23 @@ Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim'
 
 Plug 'ctrlp.vim'
-Plug 'vim-misc'
-Plug 'easytags.vim'
 Plug 'fugitive.vim'
 Plug 'gitignore'
-"Plug 'indentLine.vim' " TODO: to remove.
 Plug 'The-NERD-Commenter'
 Plug 'gnupg.vim'
 Plug 'Licenses'
-Plug 'session.vim--Odding'
 
 call plug#end()
 
+function! s:include(file)
+    execute "source " . g:nvim_path . "/" . a:file
+endfunction
+
 " Bépo vim shorcuts.
-execute "source " . s:nvim_path . "/bepo.vim"
+call s:include("bepo.vim")
+
+call s:include("ctags.vim")
+call s:include("sessions.vim")
 
 " Basic configuration.
 set background=dark
@@ -40,6 +46,7 @@ set nofoldenable
 set noshowmode
 set number
 set scrolloff=3
+set sessionoptions=buffers,curdir
 set shortmess+=I
 set showcmd
 set spelllang=fr
@@ -54,7 +61,7 @@ set completeopt -=preview
 set suffixes +=,,
 set wildmenu
 set wildmode =longest,list,full
-set wildignore+=Cargo.lock,*.class " TODO: remove *.class.
+set wildignore+=Cargo.lock
 
 " Search configuration.
 set gdefault
@@ -77,17 +84,30 @@ match NbSp /\%xa0/
 
 " File type configuration.
 filetype plugin indent on
-autocmd FileType c,cpp setlocal cindent
-autocmd FileType python setlocal autoindent
-" TODO: to remove
-autocmd FileType scheme imap \ λ
 
-" Automatically apply changes from configuration file.
-autocmd! bufwritepost init.vim execute "source " . s:nvim_path . "/init.vim"
+" Autocommands.
+if !exists("s:autocommands_loaded")
+    let s:autocommands_loaded = 1
+    autocmd FileType c,cpp setlocal cindent
+    autocmd FileType python setlocal autoindent
+    autocmd FileType asciidoc set nospell
+    autocmd BufWritePost * call g:ctags#UpdateTags()
+    " TODO: find a plugin only doing syntax checking.
+    autocmd BufWritePost * if &ft != "rust" && &ft != "cpp" | Neomake | endif
+    autocmd BufWritePost *.rs Neomake! cargo
+    autocmd VimLeave * CurrentSessionSave
 
-" Shorcuts.
+    " Automatically apply changes from configuration file.
+    autocmd BufWritePost init.vim call s:include("init.vim")
+endif
+
+" Disable F1, ex mode and Ctrl-Z shortcuts.
 map <F1> <nop>
 imap <F1> <nop>
+nnoremap Q <nop>
+nnoremap <C-Z> <nop>
+
+" Shorcuts.
 map ga <C-^>
 map gt <C-]>
 map <C-S> magg"+yG'azz
@@ -101,6 +121,11 @@ nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>n :only<CR>
 nnoremap <Leader>h :hide<CR>
 nnoremap <Leader>g :Grepper! -tool ag<CR>
+inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
+
+function! s:complete_cr_function()
+    return deoplete#mappings#close_popup() . "\<CR>"
+endfunction
 
 command! GpushNew :Gpush origin -u HEAD
 
@@ -112,13 +137,7 @@ let g:deoplete#enable_smart_case = 1
 " Licenses
 let g:licenses_authors_name = "Boucher, Antoni <bouanto@zoho.com>"
 
-" Session
-let g:session_autosave = "yes"
-let g:session_persist_globals = ["&makeprg"]
-
 " Neomake
-autocmd! BufWritePost * if &ft != "rust" | Neomake | endif
-autocmd! BufWritePost *.rs Neomake! cargo
 let g:neomake_open_list = 2
 
 " Airline
@@ -135,9 +154,6 @@ let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("t")': [],
     \ }
 let g:ctrlp_working_path_mode = 0
-
-" Easytags
-let g:easytags_dynamic_files = 2
 
 " Grepper
 let g:grepper = {}

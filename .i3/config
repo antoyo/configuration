@@ -186,7 +186,10 @@ mouse_warping none
 workspace_auto_back_and_forth yes
 
 # Application shortcuts.
-bindsym $mod+p exec palemoon
+bindsym $mod+b exec urxvt -e newsbeuter
+bindsym $mod+m exec urxvt -e fish -c mutt
+bindsym $mod+c exec urxvt -e fish -c mcabber
+bindsym $mod+v exec urxvt -e nvim
 bindsym $mod+w exec qutebrowser.py
 bindsym $mod+z exec zathura
 
