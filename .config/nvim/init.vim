@@ -4,17 +4,19 @@ let g:nvim_path = split(&runtimepath, ",")[0]
 call plug#begin(g:nvim_path . "/plugged")
 
 Plug 'benekastah/neomake'
-Plug 'bling/vim-airline'
 Plug 'cespare/vim-toml'
 Plug 'dahu/vimple'
 Plug 'dahu/Asif'
 Plug 'dahu/vim-asciidoc'
 Plug 'h1mesuke/vim-unittest'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'KabbAmine/zeavim.vim'
 Plug 'mhinz/vim-grepper'
 Plug 'phildawes/racer'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 Plug 'ctrlp.vim'
 Plug 'fugitive.vim'
@@ -96,9 +98,6 @@ if !exists("s:autocommands_loaded")
     autocmd BufWritePost * if &ft != "rust" && &ft != "cpp" | Neomake | endif
     autocmd BufWritePost *.rs Neomake! cargo
     autocmd VimLeave * CurrentSessionSave
-
-    " Automatically apply changes from configuration file.
-    autocmd BufWritePost init.vim call s:include("init.vim")
 endif
 
 " Disable F1, ex mode and Ctrl-Z shortcuts.
@@ -111,16 +110,17 @@ nnoremap <C-Z> <nop>
 map ga <C-^>
 map gt <C-]>
 map <C-S> magg"+yG'azz
+map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))<CR>
 
 nnoremap <Leader>q :update<CR>:q<CR>
 nnoremap <Leader>r :nohlsearch<CR>
-nnoremap <Leader>s :terminal<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
 nnoremap <Leader>n :only<CR>
 nnoremap <Leader>h :hide<CR>
-nnoremap <Leader>g :Grepper! -tool ag<CR>
+nnoremap <Leader>g :Grepper -tool ag<CR>
+nnoremap <Leader>p :Grepper -cword -tool ag -noprompt<CR>
 inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
 
 function! s:complete_cr_function()
@@ -162,3 +162,6 @@ let g:grepper.open = 1
 " Racer
 let g:racer_cmd = "/usr/bin/racer"
 let $RUST_SRC_PATH = "/usr/src/rust/src/"
+
+" Vimple fix.
+let vimple_init_vn = 0
