@@ -43,6 +43,7 @@ set mailcap_path = ~/.mutt/mailcap
 alternative_order text/plain text/html
 auto_view text/html
 set sort=threads
+set text_flowed
 
 # Sidebar settings.
 set sidebar_width = 25
