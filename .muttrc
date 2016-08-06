@@ -34,21 +34,22 @@ source ~/.mutt/theme
 
 # Settings.
 set mail_check = 120
+set mail_check_stats = yes
 set sleep_time = 0
 set header_cache = ~/.cache/mutt
 set message_cachedir = ~/.cache/mutt
-unset imap_passive
-set imap_keepalive = 300
 set mailcap_path = ~/.mutt/mailcap
 alternative_order text/plain text/html
 auto_view text/html
 set sort=threads
 set text_flowed
+set display_filter=format_mail.sh
+set folder=~/.config/offlineimap
 
 # Sidebar settings.
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set sidebar_width = 25
 set sidebar_visible = yes
-set sidebar_short_path = yes
 bind index,pager \CP sidebar-prev
 bind index,pager \CN sidebar-next
 bind index,pager \CO sidebar-open
@@ -65,3 +66,14 @@ set crypt_replyencrypt = yes
 set crypt_replysignencrypted = yes
 set crypt_verify_sig = yes
 set pgp_use_gpg_agent = yes
+
+# Receive options.
+source ~/.config/mutt/mailboxes
+set spoolfile=+Zoho/INBOX
+
+# Send options.
+set record = +Zoho/Envoye
+set realname='Antoni Boucher'
+set sendmail="/usr/bin/msmtp"
+set from = 'bouanto@zoho.com'
+set use_from = yes

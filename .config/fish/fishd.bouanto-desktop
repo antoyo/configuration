@@ -3,6 +3,7 @@
 SET_EXPORT BROWSER:redirect_qutebrowser
 SET_EXPORT EDITOR:nvim
 SET_EXPORT GCC_COLORS:auto
+SET_EXPORT LESSHISTFILE:\x2d
 SET_EXPORT RUST_SRC_PATH:/usr/src/rust/src/
 SET_EXPORT TERM:xterm\x2d256color
 SET __fish_init_1_22_0:\x1d

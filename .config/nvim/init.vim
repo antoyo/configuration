@@ -12,13 +12,15 @@ Plug 'h1mesuke/vim-unittest'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'KabbAmine/zeavim.vim'
 Plug 'mhinz/vim-grepper'
-Plug 'phildawes/racer'
+Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+Plug 'a.vim'
 Plug 'ctrlp.vim'
+Plug 'EasyMotion'
 Plug 'fugitive.vim'
 Plug 'gitignore'
 Plug 'The-NERD-Commenter'
@@ -34,7 +36,7 @@ endfunction
 " Bépo vim shorcuts.
 call s:include("bepo.vim")
 
-call s:include("ctags.vim")
+"call s:include("ctags.vim")
 call s:include("sessions.vim")
 
 " Basic configuration.
@@ -49,7 +51,7 @@ set noshowmode
 set number
 set scrolloff=3
 set sessionoptions=buffers,curdir
-set shortmess+=I
+set shortmess+=cI
 set showcmd
 set spelllang=fr
 set tags=./.tags
@@ -68,10 +70,10 @@ set wildignore+=Cargo.lock
 " Search configuration.
 set gdefault
 set hlsearch
-set ignorecase
+"set ignorecase
 set incsearch
 set matchpairs+=<:>
-set smartcase
+"set smartcase
 
 " Indentation configuration.
 set expandtab
@@ -84,6 +86,13 @@ syntax on
 highlight NbSp ctermbg=lightred
 match NbSp /\%xa0/
 
+highlight ExtraWhitespace ctermbg=red
+2match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * 2match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * 2match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
 " File type configuration.
 filetype plugin indent on
 
@@ -93,10 +102,8 @@ if !exists("s:autocommands_loaded")
     autocmd FileType c,cpp setlocal cindent
     autocmd FileType python setlocal autoindent
     autocmd FileType asciidoc set nospell
-    autocmd BufWritePost * call g:ctags#UpdateTags()
-    " TODO: find a plugin only doing syntax checking.
-    autocmd BufWritePost * if &ft != "rust" && &ft != "cpp" | Neomake | endif
-    autocmd BufWritePost *.rs Neomake! cargo
+    "autocmd BufWritePost * call g:ctags#UpdateTags()
+    autocmd BufWritePost * if &ft != "cpp" | Neomake | endif
     autocmd VimLeave * CurrentSessionSave
 endif
 
@@ -106,21 +113,28 @@ imap <F1> <nop>
 nnoremap Q <nop>
 nnoremap <C-Z> <nop>
 
+" Move by screen line instead of file line.
+nnoremap <expr> t v:count == 0 ? 'gj' : 'j'
+nnoremap <expr> s v:count == 0 ? 'gk' : 'k'
+
 " Shorcuts.
 map ga <C-^>
 map gt <C-]>
 map <C-S> magg"+yG'azz
 map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))<CR>
 
-nnoremap <Leader>q :update<CR>:q<CR>
-nnoremap <Leader>r :nohlsearch<CR>
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>o :CtrlP<CR>
+" TODO: add shorcuts to switch or delete buffers.
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
 nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>n :only<CR>
-nnoremap <Leader>h :hide<CR>
+nnoremap <Leader>e :set spelllang=en<CR>:set spell<CR>
 nnoremap <Leader>g :Grepper -tool ag<CR>
+nnoremap <Leader>h :hide<CR>
+nnoremap <Leader>n :only<CR>
+nnoremap <Leader>o :CtrlP<CR>
 nnoremap <Leader>p :Grepper -cword -tool ag -noprompt<CR>
+nnoremap <Leader>q :update<CR>:q<CR>
+nnoremap <Leader>s /\<\><Left><Left>
+nnoremap <Leader>w :w<CR>
 inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
 
 function! s:complete_cr_function()
@@ -133,6 +147,12 @@ command! GpushNew :Gpush origin -u HEAD
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
+call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
+
+" Vim Racer.
+let g:racer_cmd = '/usr/bin/racer'
+let g:racer_no_default_keymappings = 1
+let $RUST_SRC_PATH = '/usr/src/rust/src/'
 
 " Licenses
 let g:licenses_authors_name = "Boucher, Antoni <bouanto@zoho.com>"
@@ -158,10 +178,6 @@ let g:ctrlp_working_path_mode = 0
 " Grepper
 let g:grepper = {}
 let g:grepper.open = 1
-
-" Racer
-let g:racer_cmd = "/usr/bin/racer"
-let $RUST_SRC_PATH = "/usr/src/rust/src/"
 
 " Vimple fix.
 let vimple_init_vn = 0

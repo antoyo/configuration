@@ -38,7 +38,7 @@ bindsym $mod+i exec --no-startup-id dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# bindsym $mod+i exec --no-startup-id i3-dmenu-desktop # TODO: use this.
 
 # change focus
 bindsym $mod+t focus left
@@ -152,7 +152,7 @@ bindsym $mod+o mode "resize"
 bar {
     font pango: DejaVu Sans 11
     position top
-    status_command i3status
+    status_command statusbar.py
     tray_output primary
 }
 
@@ -197,3 +197,12 @@ bindsym $mod+z exec zathura
 bindsym $mod+Prior exec amixer -q set Master 5+
 bindsym $mod+Next exec amixer -q set Master 5-
 bindsym $mod+End exec $(amixer get Master | grep off > /dev/null && amixer -q set Master unmute) || amixer -q set Master mute
+
+# Autostart applications.
+exec xsetroot -cursor_name left_ptr
+exec unclutter -root
+exec xrdb -merge ~/.config/X11/xresources
+exec offlineimap
+# Screen configuration
+exec xrandr --output VGA-0 --mode 1440x900 --rate 75 --right-of DVI-0 --primary --output DVI-0 --mode 1440x900 --rate 75
+exec feh --bg-scale ~/Images/image.png
