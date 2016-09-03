@@ -10,8 +10,8 @@ Plug 'dahu/Asif'
 Plug 'dahu/vim-asciidoc'
 Plug 'h1mesuke/vim-unittest'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'KabbAmine/zeavim.vim'
-Plug 'mhinz/vim-grepper'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim'
@@ -19,7 +19,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'a.vim'
-Plug 'ctrlp.vim'
 Plug 'EasyMotion'
 Plug 'fugitive.vim'
 Plug 'gitignore'
@@ -125,13 +124,13 @@ map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))
 
 " TODO: add shorcuts to switch or delete buffers.
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
-nnoremap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>e :set spelllang=en<CR>:set spell<CR>
-nnoremap <Leader>g :Grepper -tool ag<CR>
+nnoremap <Leader>g :Ag 
 nnoremap <Leader>h :hide<CR>
 nnoremap <Leader>n :only<CR>
-nnoremap <Leader>o :CtrlP<CR>
-nnoremap <Leader>p :Grepper -cword -tool ag -noprompt<CR>
+nnoremap <Leader>o :Files<CR>
+nnoremap <Leader>p :call fzf#vim#ag("<C-R><C-W>", {"-w": 1, 'down': '~40%'})<CR>
 nnoremap <Leader>q :update<CR>:q<CR>
 nnoremap <Leader>s /\<\><Left><Left>
 nnoremap <Leader>w :w<CR>
@@ -165,19 +164,6 @@ set laststatus=2
 let g:airline_theme="powerlineish"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-
-" CtrlP
-let g:ctrlp_prompt_mappings = {
-    \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
-    \ 'PrtSelectMove("k")':   ['<c-s>', '<up>'],
-    \ 'AcceptSelection("h")': ['<c-x>', '<c-cr>'],
-    \ 'AcceptSelection("t")': [],
-    \ }
-let g:ctrlp_working_path_mode = 0
-
-" Grepper
-let g:grepper = {}
-let g:grepper.open = 1
 
 " Vimple fix.
 let vimple_init_vn = 0

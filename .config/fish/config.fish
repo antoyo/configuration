@@ -5,6 +5,10 @@ function fish_prompt
     set_color normal
 end
 
+function add_event
+    ics2rem $argv[1] >> ~/.config/remind/reminders.rem
+end
+
 # MCabber function.
 function mcabber_config_file
     cat ~/.mcabber/mcabberrc
@@ -26,6 +30,10 @@ end
 
 function confdiff
     nvim -d $argv[1] ~/$argv[1]
+end
+
+function docx2txt
+    docx2txt.pl $argv[1] /dev/stdout
 end
 
 # Aliases.
