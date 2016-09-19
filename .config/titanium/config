@@ -1,0 +1,23 @@
+nmap <C-b> scrollup
+nmap <C-c> stop
+nmap <C-d> scrolldownhalf
+nmap <C-f> scrolldown
+nmap <C-i> forward
+nmap <C-o> back
+nmap <C-u> scrolluphalf
+nmap e reload
+nmap E reloadbypasscache
+nmap gg scrolltop
+nmap G scrollbottom
+nmap i insert
+nmap n searchnext
+nmap N searchprevious
+nmap o :open
+nmap O :open <url>
+nmap q quit
+nmap s scrollupline
+nmap t scrolldownline
+nmap w :winopen
+nmap W :winopen <url>
+
+imap <Esc> normal
