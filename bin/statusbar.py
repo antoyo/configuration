@@ -2,7 +2,7 @@
 
 # TODO: File watcher.
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import locale
 from subprocess import Popen, PIPE, STDOUT
@@ -47,18 +47,27 @@ def get_events():
     events = []
     for line in lines:
         parts = line.split(" ")
-        date = datetime.strptime(parts[0], "%Y/%m/%d")
-        days = (date - datetime.now()).days
+        if "am" in parts[5]:
+            start_time = parts[5].split("-")[0].replace("am", "").replace("pm", "")
+        else:
+            (hours, minutes) = parts[5].split("-")[0].split(":")
+            hours = int(hours) + 12
+            if hours == 24:
+                hours = 0
+            start_time = str(hours) + ":" + minutes
+        date = datetime.strptime(parts[0] + " " + start_time, "%Y/%m/%d %H:%M")
+        current_date = datetime.now()
+        date_in_one_week = current_date + timedelta(days=7)
         hour = parts[5]
         index = line.index(hour) + len(hour) + 1
         summary = ""
         summary_words = line[index:].split(" ")
         i = 0
-        while len(summary) < SUMMARY_LEN:
+        while len(summary) < SUMMARY_LEN and i < len(summary_words):
             summary += summary_words[i] + " "
             i += 1
         summary = summary.strip(" .:")
-        if days >= 0 and days <= 7:
+        if date.timestamp() >= current_date.timestamp() and date.timestamp() < date_in_one_week.timestamp():
             events.append({
                 "date": date,
                 "summary": summary,
@@ -151,6 +160,13 @@ while True:
         "name": "datetime",
         "full_text": now.strftime("%A %-d %B %Y ⌚ %-H:%M"),
     })
+
+    # GMT time.
+    #now = datetime.utcnow()
+    #data.append({
+        #"name": "datetime",
+        #"full_text": now.strftime("⌚ %-H:%M"),
+    #})
 
     # Show and sleep.
     print(",", json.dumps(data))
