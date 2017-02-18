@@ -3,6 +3,8 @@ let g:nvim_path = split(&runtimepath, ",")[0]
 " vim-plug coniguration.
 call plug#begin(g:nvim_path . "/plugged")
 
+Plug 'antoyo/vim-licenses'
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'benekastah/neomake'
 Plug 'cespare/vim-toml'
 Plug 'dahu/vimple'
@@ -14,17 +16,15 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'a.vim'
-Plug 'EasyMotion'
 Plug 'fugitive.vim'
 Plug 'gitignore'
-Plug 'The-NERD-Commenter'
 Plug 'gnupg.vim'
-Plug 'Licenses'
+Plug 'The-NERD-Commenter'
 
 call plug#end()
 
@@ -44,6 +44,7 @@ set backupdir =.
 set confirm
 set icon
 set hidden
+set inccommand=split
 set mouse=
 set nofoldenable
 set noshowmode
@@ -84,6 +85,7 @@ set tabstop=4
 syntax on
 highlight NbSp ctermbg=lightred
 match NbSp /\%xa0/
+autocmd BufWinEnter * match NbSp /\%xa0/
 
 highlight ExtraWhitespace ctermbg=red
 2match ExtraWhitespace /\s\+$/
@@ -102,13 +104,15 @@ if !exists("s:autocommands_loaded")
     autocmd FileType python setlocal autoindent
     autocmd FileType asciidoc set nospell
     "autocmd BufWritePost * call g:ctags#UpdateTags()
-    autocmd BufWritePost * if &ft != "cpp" | Neomake | endif
+    autocmd BufWritePost * if &ft != "cpp" && &ft != "rust" | Neomake | endif
+    autocmd BufWritePost *.rs Neomake! clippy
     autocmd VimLeave * CurrentSessionSave
 endif
 
 " Disable F1, ex mode and Ctrl-Z shortcuts.
 map <F1> <nop>
 imap <F1> <nop>
+imap <C-c> <Esc>:set relativenumber<CR>
 nnoremap Q <nop>
 nnoremap <C-Z> <nop>
 
@@ -122,15 +126,22 @@ map gt <C-]>
 map <C-S> magg"+yG'azz
 map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))<CR>
 
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 " TODO: add shorcuts to switch or delete buffers.
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>e :set spelllang=en<CR>:set spell<CR>
-nnoremap <Leader>g :Ag 
+nnoremap <Leader>g :Rg 
 nnoremap <Leader>h :hide<CR>
 nnoremap <Leader>n :only<CR>
 nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>p :call fzf#vim#ag("<C-R><C-W>", {"-w": 1, 'down': '~40%'})<CR>
+nnoremap <Leader>p :Rg <C-R><C-W><CR>
 nnoremap <Leader>q :update<CR>:q<CR>
 nnoremap <Leader>s /\<\><Left><Left>
 nnoremap <Leader>w :w<CR>
@@ -154,7 +165,7 @@ let g:racer_no_default_keymappings = 1
 let $RUST_SRC_PATH = '/usr/src/rust/src/'
 
 " Licenses
-let g:licenses_authors_name = "Boucher, Antoni <bouanto@zoho.com>"
+let g:licenses_copyright_holders_name = "Boucher, Antoni <bouanto@zoho.com>"
 
 " Neomake
 let g:neomake_open_list = 2
@@ -164,6 +175,12 @@ set laststatus=2
 let g:airline_theme="powerlineish"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+
+" LanguageClient
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['cargo', 'run', '--release', '--manifest-path=/home/bouanto/Telechargements/Source/rls/Cargo.toml'],
+    \ }
 
 " Vimple fix.
 let vimple_init_vn = 0

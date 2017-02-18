@@ -1,23 +1,23 @@
-nmap <C-b> scrollup
-nmap <C-c> stop
-nmap <C-d> scrolldownhalf
-nmap <C-f> scrolldown
-nmap <C-i> forward
-nmap <C-o> back
-nmap <C-u> scrolluphalf
-nmap e reload
-nmap E reloadbypasscache
-nmap gg scrolltop
-nmap G scrollbottom
-nmap i insert
-nmap n searchnext
-nmap N searchprevious
-nmap o :open
-nmap O :open <url>
-nmap q quit
-nmap s scrollupline
-nmap t scrolldownline
-nmap w :winopen
-nmap W :winopen <url>
+include keys
+include webkit
 
-imap <Esc> normal
+set home-page = https://duckduckgo.com/lite/
+
+# Search engines.
+search-engine d https://duckduckgo.com/lite/?q={}
+search-engine wt http://fr.wiktionary.org/w/index.php?search={}
+search-engine wte http://en.wiktionary.org/w/index.php?search={}
+search-engine wp https://fr.wikipedia.org/w/index.php?search={}
+search-engine wpe http://en.wikipedia.org/w/index.php?search={}
+search-engine aw https://wiki.archlinux.org/index.php?search={}
+search-engine ar https://aur.archlinux.org/packages/?O=0&K={}
+search-engine cr https://crates.io/search?q={}
+search-engine rs https://doc.rust-lang.org/stable/std/?search={}
+search-engine ia http://web.archive.org/web/*/{}
+search-engine rd https://docs.rs/releases/search?query={}
+search-engine mdn https://developer.mozilla.org/en-US/search?q={}
+search-engine gh https://github.com/search?utf8=%E2%9C%93&q={}
+
+set hint-chars = auietsrncbpodljyxkqghf
+
+set cookie-accept = no-third-party

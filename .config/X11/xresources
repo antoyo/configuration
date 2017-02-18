@@ -93,7 +93,7 @@ URxvt*font:                             xft:DejaVu Sans Mono for Powerline:size=
 ! URxvt*pointerBlankDelay:              number
 ! URxvt*backspacekey:                   string
 ! URxvt*deletekey:                      string
-! URxvt*print-pipe:                     string
+URxvt*print-pipe:                       :
 ! URxvt*modifier:                       modifier
 ! URxvt*cutchars:                       string
 ! URxvt*answerbackString:               string
@@ -128,7 +128,7 @@ URxvt*iso14755:                         False
 ! URxvt*tabbar-bg:                      colour
 ! URxvt*tabbar-fg:                      colour
 ! URxvt*url-launcher:                   string
-URxvt.url-select.launcher:              qutebrowser.py
+URxvt.url-select.launcher:              titanium
 URxvt.url-select.underline:             true
 URxvt.keysym.C-M-w:                     perl:url-select:select_next
 URxvt.keysym.C-M-s:                     perl:keyboard-select:activate

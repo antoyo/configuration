@@ -16,10 +16,6 @@ function mcabber_config_file
     pass chat/dukgo
 end
 
-function mcp
-    scp $argv[1] mediac@ghislain-desktop.local:~/Vidéos
-end
-
 function mkc
     mkdir $argv[1]; cd $argv[1]
 end
@@ -37,9 +33,16 @@ function docx2txt
 end
 
 # Aliases.
+alias ca "cargo add --upgrade=minor"
+alias cb "cargo build"
+alias cbr "cb --release"
 alias cdc "cd `xclip -o`"
-alias cp "cp -i"
 alias cmake_uninstall "sudo xargs rm < install_manifest.txt"
+alias cp "cp -i"
+alias cr "cargo run"
+alias cre "cargo run --example"
+alias ct "cargo test"
+alias cu "cargo update"
 alias dcmake "cmake -DCMAKE_BUILD_TYPE=Debug .."
 alias df "df -h"
 alias fishconfig "nvim ~/.config/fish/config.fish"
@@ -58,10 +61,12 @@ alias pcr "pacaur -Rsn"
 alias pcs "pacaur -Ss"
 alias pcu "pacaur -Syu"
 alias rm "rm -i"
+alias titaniumconfig "cd ~/.config/titanium; nvim config keys"
 alias trc "transmission-remote-cli"
 alias unmount "udisksctl unmount -b"
 alias unmount_cd "udisksctl unmount -b /dev/sr0"
 alias urlsnews "nvim ~/.config/newsbeuter/urls"
+alias you "youtube-dl --no-playlist"
 
 function __fish_command_not_found_handler --on-event fish_command_not_found
     echo "fish: Unknown command '$argv'"

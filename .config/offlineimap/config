@@ -72,7 +72,7 @@ metadata = ~/.local/share/offlineimap
 #
 # Always use ASCII characters only.
 #
-accounts = Zoho,USherbrooke
+accounts = Zoho
 
 
 # This option stands in the [general] section.
@@ -1130,7 +1130,7 @@ nametrans = lambda folder: re.sub('^Envoy&AOk-$', 'Envoye', folder)
 #folderfilter = lambda foldername: foldername in [
 #    'INBOX', 'Sent Mail',
 #    'Deleted Items', 'Received']
-folderfilter = lambda folder: folder in ['Echecs', 'Envoy&AOk-', 'INBOX', 'Spam']
+folderfilter = lambda folder: folder in ['Echecs', 'Emploi', 'Envoy&AOk-', 'INBOX', 'Mensa', 'Services', 'Spam']
 
 # This option stands in the [Repository RemoteExample] section.
 #
