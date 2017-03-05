@@ -45,6 +45,7 @@ set confirm
 set icon
 set hidden
 set inccommand=split
+set list listchars=tab:▸\ ,nbsp:¬,trail:·
 set mouse=
 set nofoldenable
 set noshowmode
@@ -83,16 +84,7 @@ set tabstop=4
 
 " Syntax configuration.
 syntax on
-highlight NbSp ctermbg=lightred
-match NbSp /\%xa0/
-autocmd BufWinEnter * match NbSp /\%xa0/
-
-highlight ExtraWhitespace ctermbg=red
-2match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * 2match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * 2match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * 2match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+highlight SpecialKey ctermbg=red
 
 " File type configuration.
 filetype plugin indent on
