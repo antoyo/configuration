@@ -85,6 +85,8 @@ set tabstop=4
 " Syntax configuration.
 syntax on
 highlight SpecialKey ctermbg=red
+autocmd InsertEnter * highlight clear SpecialKey
+autocmd InsertLeave * highlight SpecialKey ctermbg=red
 
 " File type configuration.
 filetype plugin indent on
@@ -118,9 +120,17 @@ map gt <C-]>
 map <C-S> magg"+yG'azz
 map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))<CR>
 
+" TODO: refactor these commands into a single one.
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Rgw
+  \ call fzf#vim#grep(
+  \   'rg --word-regexp --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
@@ -133,7 +143,7 @@ nnoremap <Leader>g :Rg
 nnoremap <Leader>h :hide<CR>
 nnoremap <Leader>n :only<CR>
 nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>p :Rg <C-R><C-W><CR>
+nnoremap <Leader>p :Rgw <C-R><C-W><CR>
 nnoremap <Leader>q :update<CR>:q<CR>
 nnoremap <Leader>s /\<\><Left><Left>
 nnoremap <Leader>w :w<CR>
