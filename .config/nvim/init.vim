@@ -102,14 +102,13 @@ augroup END
 " Disable F1, ex mode and Ctrl-Z shortcuts.
 map <F1> <nop>
 imap <F1> <nop>
-imap <C-c> <Esc>:set relativenumber<CR>
 nnoremap Q <nop>
 nnoremap <C-Z> <nop>
 
-" Move by screen line instead of file line (only when not giving a <count>
-" parameter in front of the binding: this is useful with relativenumber).
-nnoremap <expr> t v:count == 0 ? 'gj' : 'j'
-nnoremap <expr> s v:count == 0 ? 'gk' : 'k'
+" Disable Ctrl-C.
+cmap <C-c> <nop>
+imap <C-c> <nop>
+vmap <C-c> <nop>
 
 " Shorcuts.
 " Go to alternate buffer.
