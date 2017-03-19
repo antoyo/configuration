@@ -1,9 +1,9 @@
-let g:nvim_path = split(&runtimepath, ",")[0]
+" Plugins.
+call plug#begin()
 
-" vim-plug coniguration.
-call plug#begin(g:nvim_path . "/plugged")
-
+Plug 'antoyo/vim-bepo'
 Plug 'antoyo/vim-licenses'
+Plug 'antoyo/vim-sessions'
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'benekastah/neomake'
 Plug 'cespare/vim-toml'
@@ -17,6 +17,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'sjl/gundo.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -28,63 +29,60 @@ Plug 'The-NERD-Commenter'
 
 call plug#end()
 
-function! s:include(file)
-    execute "source " . g:nvim_path . "/" . a:file
+" Custom functions.
+" Close completion popup and press Enter.
+function! s:complete_cr_function()
+    return deoplete#mappings#close_popup() . "\<CR>"
 endfunction
 
-" Bépo vim shorcuts.
-call s:include("bepo.vim")
-
-"call s:include("ctags.vim")
-call s:include("sessions.vim")
-
 " Basic configuration.
-set background=dark
-set backupdir =.
 set confirm
-set icon
-set hidden
-set inccommand=split
-set list listchars=tab:▸\ ,nbsp:¬,trail:·
-set mouse=
-set nofoldenable
-set noshowmode
-set number
-set scrolloff=3
-set sessionoptions=buffers,curdir
-set shortmess+=cI
-set showcmd
+set hidden " Avoid unloading a buffer when editing another file.
+set sessionoptions=buffers,curdir " Only save the buffers and the current directory in the session.
 set spelllang=fr
 set tags=./.tags
-set timeoutlen=250
-set title
+set matchpairs+=<:> " Enable % to jump from < to >.
+set notimeout " Disable the timeout.
 
 let mapleader = "\<Space>"
 
+" UI configuration.
+set background=dark
+set cursorline " Highlight the active line.
+set inccommand=split " Incremental visual feedback for the substitute command.
+set list listchars=tab:▸\ ,nbsp:¬,trail:· " Display a character on tabs, nbsp and trailing whitespace.
+set mouse= " Disable the mouse.
+set nofoldenable " Open all folds.
+set noshowmode " Hide the mode since the airline already shows it.
+set number
+set scrolloff=3 " Set to 3 the number of lines to keep above and below the cursor.
+set shortmess+=cI " Hide completion (c) and intro (I) message.
+set showcmd
+set title
+
 " Completion configuration.
-set completeopt -=preview
-set suffixes +=,,
-set wildmenu
+set completeopt -=preview " Disable the preview window for the completions.
+set suffixes +=,, " Ignore files without extension (probably binary files) in file name completion.
+set wildmenu " Show completions in commands.
 set wildmode =longest,list,full
-set wildignore+=Cargo.lock
+set wildignore+=Cargo.lock " Ignore these files in file completion.
 
 " Search configuration.
-set gdefault
-set hlsearch
-"set ignorecase
-set incsearch
-set matchpairs+=<:>
-"set smartcase
+set gdefault " Enable global substitute (all matches in a line are substituted).
+set hlsearch " Highlight search matches.
+set incsearch " Enable incremental search.
 
 " Indentation configuration.
-set expandtab
-set formatoptions=ro
-set shiftwidth=4
-set tabstop=4
+set expandtab " Convert inserted tabs to spaces.
+set formatoptions=ro " Insert comment leader when hitting Enter or o/O.
+set shiftwidth=4 " Auto-indent this number of space.
+set tabstop=4 " Tabs will be shown on 4 characters.
 
 " Syntax configuration.
 syntax on
+" Color the special keys (tabs, trailing spaces, nbsp) in red.
 highlight SpecialKey ctermbg=red
+" Disable this special keys highlighting in normal mode.
 autocmd InsertEnter * highlight clear SpecialKey
 autocmd InsertLeave * highlight SpecialKey ctermbg=red
 
@@ -92,16 +90,14 @@ autocmd InsertLeave * highlight SpecialKey ctermbg=red
 filetype plugin indent on
 
 " Autocommands.
-if !exists("s:autocommands_loaded")
-    let s:autocommands_loaded = 1
+augroup filegroup
     autocmd FileType c,cpp setlocal cindent
     autocmd FileType python setlocal autoindent
     autocmd FileType asciidoc set nospell
-    "autocmd BufWritePost * call g:ctags#UpdateTags()
     autocmd BufWritePost * if &ft != "cpp" && &ft != "rust" | Neomake | endif
     autocmd BufWritePost *.rs Neomake! clippy
     autocmd VimLeave * CurrentSessionSave
-endif
+augroup END
 
 " Disable F1, ex mode and Ctrl-Z shortcuts.
 map <F1> <nop>
@@ -110,16 +106,26 @@ imap <C-c> <Esc>:set relativenumber<CR>
 nnoremap Q <nop>
 nnoremap <C-Z> <nop>
 
-" Move by screen line instead of file line.
+" Move by screen line instead of file line (only when not giving a <count>
+" parameter in front of the binding: this is useful with relativenumber).
 nnoremap <expr> t v:count == 0 ? 'gj' : 'j'
 nnoremap <expr> s v:count == 0 ? 'gk' : 'k'
 
 " Shorcuts.
+" Go to alternate buffer.
 map ga <C-^>
+" Navigate link.
 map gt <C-]>
+" Select the last inserted text.
+nnoremap gV `[v`]
+" Copy the whole buffer to the system clipboard.
 map <C-S> magg"+yG'azz
 map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))<CR>
+nnoremap ; $
+" Close popup and add a new line when hitting Enter.
+inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
 
+" Commands.
 " TODO: refactor these commands into a single one.
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
@@ -141,17 +147,19 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>e :set spelllang=en<CR>:set spell<CR>
 nnoremap <Leader>g :Rg 
 nnoremap <Leader>h :hide<CR>
+nnoremap <Leader>l "*p
+nnoremap <Leader>L "*P
 nnoremap <Leader>n :only<CR>
 nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>p :Rgw <C-R><C-W><CR>
+nnoremap <Leader>p "+p
+nnoremap <Leader>P "+P
+nnoremap <Leader>* :Rgw <C-R><C-W><CR>
 nnoremap <Leader>q :update<CR>:q<CR>
 nnoremap <Leader>s /\<\><Left><Left>
+nnoremap <Leader>u :GundoToggle<CR>
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
 nnoremap <Leader>w :w<CR>
-inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
-
-function! s:complete_cr_function()
-    return deoplete#mappings#close_popup() . "\<CR>"
-endfunction
 
 command! GpushNew :Gpush origin -u HEAD
 
@@ -161,7 +169,7 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 call deoplete#custom#set('_', 'converters', ['converter_remove_paren'])
 
-" Vim Racer.
+" Vim Racer
 let g:racer_cmd = '/usr/bin/racer'
 let g:racer_no_default_keymappings = 1
 let $RUST_SRC_PATH = '/usr/src/rust/src/'
@@ -179,10 +187,16 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " LanguageClient
-
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['cargo', 'run', '--release', '--manifest-path=/home/bouanto/Telechargements/Source/rls/Cargo.toml'],
     \ }
 
+" GUndo
+let g:gundo_map_move_older = "t"
+let g:gundo_map_move_newer = "s"
+
 " Vimple fix.
 let vimple_init_vn = 0
+
+" Fix to show the tabs at startup.
+redraw

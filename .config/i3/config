@@ -209,3 +209,4 @@ exec offlineimap
 exec feh --bg-scale ~/Images/image.png
 exec setxkbmap fr bepo
 exec anamnesis --start
+exec xmodmap ~/.capstoescswitch
