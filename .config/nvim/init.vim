@@ -12,6 +12,7 @@ Plug 'dahu/Asif'
 Plug 'dahu/vim-asciidoc'
 Plug 'h1mesuke/vim-unittest'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+Plug 'antoyo/semantic-highlight.vim'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'racer-rust/vim-racer'
@@ -85,6 +86,8 @@ highlight SpecialKey ctermbg=red
 " Disable this special keys highlighting in normal mode.
 autocmd InsertEnter * highlight clear SpecialKey
 autocmd InsertLeave * highlight SpecialKey ctermbg=red
+" Highlight the current line instead of underlining it.
+highlight CursorLine cterm=NONE ctermbg=234
 
 " File type configuration.
 filetype plugin indent on
@@ -120,7 +123,10 @@ nnoremap gV `[v`]
 " Copy the whole buffer to the system clipboard.
 map <C-S> magg"+yG'azz
 map <C-T> :call system("xclip -sel clip", system("include_replace src/main.rs"))<CR>
-nnoremap ; $
+" Open new lines without going to insert mode.
+nmap <S-CR> O<Esc>
+nmap <expr> <CR> &modifiable?"o<Esc>":"<CR>"
+noremap ; $
 " Close popup and add a new line when hitting Enter.
 inoremap <silent> <CR> <C-r>=<SID>complete_cr_function()<CR>
 

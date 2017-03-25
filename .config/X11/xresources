@@ -137,3 +137,4 @@ URxvt.keysym.Shift-Control-C:           perl:clipboard:copy
 URxvt.keysym.Shift-Control-V:           perl:clipboard:paste
 URxvt.keysym.Shift-Up:                  command:\033]720;1\007
 URxvt.keysym.Shift-Down:                command:\033]721;1\007
+URxvt.keysym.S-Return:     \033[13;2u
